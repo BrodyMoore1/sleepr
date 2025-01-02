@@ -2,7 +2,7 @@ Package: sleepr
 Title: Obtain Data From Sleeper Fantasy Football API
 Version: 0.0.0.9000
 Authors@R: 
-    person("Brody", "Moore", email = "showmesuccess@hotmail.com", role = "aut")
+    person("Brody", "Moore", email = "showmesuccess@hotmail.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 License: `use_mit_license()`
 Encoding: UTF-8

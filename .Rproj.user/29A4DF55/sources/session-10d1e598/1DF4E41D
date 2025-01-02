@@ -1,0 +1,26 @@
+{
+    "id": "1DF4E41D",
+    "path": "~/Projects/sleepr/R/create_season_weekly_df.R",
+    "project_path": "R/create_season_weekly_df.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1735859001108.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "32,66",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1735854478,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1735854478,
+    "read_only": false,
+    "read_only_alternatives": []
+}
