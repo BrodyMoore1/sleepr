@@ -31,7 +31,7 @@ column indicating that the player is a starter.
 # Create a starter dataframe for a roster
 create_starter_df(
   roster_id = 1,
-  starters = c("11563" "9509"  "8138"  "11631" "4039"  "4217"  "7496"  "11635" "1945"  "BAL")
+  starters = c("11563", "9509", "8138",  "11631", "4039",  "4217",  "7496",  "11635", "1945" , "BAL")
 )
 
 }
