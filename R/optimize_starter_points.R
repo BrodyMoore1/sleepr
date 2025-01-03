@@ -61,8 +61,7 @@ optimize_starter_points <- function(data, player_df = NA) {
         player_position %in% c("DEF", "K", "QB") & position_rank == 1 ~ "optimal",
         player_position %in% c("DEF", "K", "QB") & position_rank > 1 ~ "sub_optimal",
         player_position %in% c("TE") & position_rank == 1 ~ "optimal",
-        player_position %in% c("WR", "RB") & position_rank <= 2 ~ "optimal",
-        TRUE ~ "sub_optimal"
+        player_position %in% c("WR", "RB") & position_rank <= 2 ~ "optimal"
       )
     ) %>%
     dplyr::ungroup()

@@ -256,7 +256,7 @@ create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "202
     mutate(
       award_name = "The Rabbit's Foot Award",
       award_description = "Luckiest Team based on average points in wins",
-      award_details = paste0(str_to_title(display_name), " had the lowest average points in their wins with ", avg_pts_win, " points")
+      award_details = paste0(str_to_title(display_name), " had the lowest average points in their wins with ", round(avg_pts_win,2), " points")
     ) %>%
     award_selector()
 
