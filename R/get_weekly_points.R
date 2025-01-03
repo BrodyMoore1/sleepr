@@ -90,9 +90,12 @@ get_weekly_points <- function(league_id = "1124848060283768832", nfl_start_dt = 
         dplyr::filter(!is.na(player_points)) %>%
         dplyr::mutate(is_alpha = grepl("[A-Za-z]", player_id)) %>%
         dplyr::mutate(
-          roster_id = dplyr::if_else(is_alpha, as.numeric(gsub(".*?(\\d+)$", "\\1", player_id)), NA)
+          #roster_id = dplyr::if_else(is_alpha, as.numeric(gsub(".*?(\\d+)$", "\\1", player_id)), NA)
+          last_digit = stringr::str_sub(player_id, -1, -1),
+          roster_id = cumsum(c(TRUE, diff(as.numeric(last_digit)) != 0))
         ) %>%
-        tidyr::fill(roster_id, .direction = "up") %>%
+        dplyr::select(-last_digit) %>%
+        #tidyr::fill(roster_id, .direction = "up") %>%
         dplyr::rowwise() %>%
         dplyr::mutate(new_player_id = gsub(paste0(roster_id, "$"), "", player_id)) %>%
         dplyr::select(roster_id, player_id = new_player_id, player_points) %>%
