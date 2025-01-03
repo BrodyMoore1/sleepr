@@ -58,10 +58,10 @@ get_weekly_points <- function(league_id = "1124848060283768832", nfl_start_dt = 
       # Process matchup data
       matchup_setup <- matchup_data_parsed %>%
         dplyr::select(roster_id, matchup_id) %>%
-        dplyr::arrange(matchup_id)
+        dplyr::arrange(matchup_id) %>%
+        tidyr::drop_na()
 
       matchup_num <- matchup_setup %>%
-        tidyr::drop_na() %>%
         dplyr::distinct(matchup_id) %>%
         dplyr::filter(matchup_id == max(matchup_id)) %>%
         dplyr::pull()
