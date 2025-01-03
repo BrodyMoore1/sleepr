@@ -28,6 +28,8 @@ create_user_df <- function(league_id = "1124848060283768832") {
   user_response <- httr::GET(paste0("https://api.sleeper.app/v1/league/", league_id, "/users"))
 
   if (httr::status_code(user_response) == 200) {
+    message("User API Successfully Called")
+
     # Parse API response
     user_content <- httr::content(user_response, "text")
     user_content_parsed <- jsonlite::fromJSON(user_content)

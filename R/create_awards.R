@@ -152,8 +152,6 @@ create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "202
 
   ir_award_setup <- injury_setup %>%
     count(roster_id) %>%
-    left_join(roster_df %>% select(owner_id, roster_id) %>% mutate(roster_id = as.character(roster_id)), by = "roster_id") %>%
-    left_join(user_df %>% select(user_id, display_name), by = c("owner_id" = "user_id")) %>%
     select(roster_id, display_name, num_injuries = n) %>%
     arrange(desc(num_injuries)) %>%
     filter(num_injuries == max(num_injuries)) %>%

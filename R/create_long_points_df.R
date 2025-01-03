@@ -32,6 +32,7 @@
 #' @importFrom dplyr left_join select arrange mutate
 #' @export
 create_long_points_df <- function(league_id = "1124848060283768832", nfl_start_dt = "2024-09-05", player_df = NA) {
+  message("Creating the Long DataFrame")
 
   # Check if player_df is provided; if not, fetch it dynamically
   if (!is.data.frame(player_df)) {

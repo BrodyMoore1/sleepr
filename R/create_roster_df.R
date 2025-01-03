@@ -27,6 +27,8 @@ create_roster_df <- function(league_id = "1124848060283768832") {
   roster_response <- httr::GET(paste0("https://api.sleeper.app/v1/league/", league_id, "/rosters"))
 
   if (httr::status_code(roster_response) == 200) {
+    message("Roster API successfully called")
+
     # Parse API response
     roster_content <- httr::content(roster_response, "text")
     roster_content_parsed <- jsonlite::fromJSON(roster_content)
