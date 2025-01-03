@@ -146,12 +146,12 @@ create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "202
 
   injury_setup <- long_points_df %>%
     filter(week == 1) %>%
-    select(roster_id, player_id) %>%
+    select(roster_id, display_name, player_id) %>%
     left_join(player_df %>% select(player_id, player_name, injury_status), by = "player_id") %>%
     filter(!is.na(injury_status) & injury_status != "Questionable")
 
   ir_award_setup <- injury_setup %>%
-    count(roster_id) %>%
+    count(roster_id, display_name) %>%
     select(roster_id, display_name, num_injuries = n) %>%
     arrange(desc(num_injuries)) %>%
     filter(num_injuries == max(num_injuries)) %>%
