@@ -63,8 +63,9 @@ get_weekly_points <- function(league_id = "1124848060283768832", nfl_start_dt = 
 
       matchup_num <- matchup_setup %>%
         dplyr::distinct(matchup_id) %>%
-        dplyr::filter(matchup_id == max(matchup_id)) %>%
-        dplyr::pull()
+        dplyr::mutate(rn = dplyr::row_number()) %>%
+        dplyr::filter(rn == max(rn)) %>%
+        dplyr::pull(rn)
 
       matchup_df <- matchup_setup %>%
         dplyr::mutate(stadium = rep(c("home_roster_id", "opponent_roster_id"), matchup_num)) %>%
