@@ -37,9 +37,9 @@ create_season_weekly_df <- function(nfl_start_dt = "2024-09-05") {
 
   # Create a dataframe for 18 NFL weeks
   season_df <- tibble::tibble(
-    week = 1:18,
-    start_dt = nfl_start_dt + lubridate::weeks(0:17),       # Start date of each week (every Thursday)
-    end_dt = nfl_start_dt + lubridate::weeks(0:17) + lubridate::days(4) # End date of each week (every Monday)
+    week = 1:17,
+    start_dt = nfl_start_dt + lubridate::weeks(0:16),       # Start date of each week (every Thursday)
+    end_dt = nfl_start_dt + lubridate::weeks(0:16) + lubridate::days(4) # End date of each week (every Monday)
   ) %>%
     dplyr::mutate(month = lubridate::month(start_dt))
 
