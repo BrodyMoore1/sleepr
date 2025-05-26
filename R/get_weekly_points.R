@@ -49,7 +49,8 @@ get_weekly_points <- function(league_id = "1124848060283768832", nfl_start_dt = 
     message(paste0("Collecting data for week ", week_num))
 
     matchup_url <- paste0("https://api.sleeper.app/v1/league/", league_id, "/matchups/", week_num)
-    matchup_response <- httr::GET(matchup_url)
+    matchup_response <- httr::GET(matchup_url,
+                                  config(ssl_verifypeer = 0))
 
     if (httr::status_code(matchup_response) == 200) {
       matchup_data <- httr::content(matchup_response, as = "text")
