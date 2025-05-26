@@ -23,7 +23,8 @@
 #' @export
 get_player_df <- function() {
   # Bring in the player information
-  player_response <- httr::GET("https://api.sleeper.app/v1/players/nfl")
+  player_response <- httr::GET("https://api.sleeper.app/v1/players/nfl",
+                               config(ssl_verifypeer = 0))
 
   if (httr::status_code(player_response) == 200) {
     message("Player API call success")

@@ -30,7 +30,8 @@ get_draft_order <- function(leauge_id = "1069393183089586176") {
   name_df <- combined_df %>%
     distinct(roster_id, display_name)
 
-  bracket_response <- GET(paste0("https://api.sleeper.app/v1/league/", leauge_id,"/winners_bracket"))
+  bracket_response <- GET(paste0("https://api.sleeper.app/v1/league/", leauge_id,"/winners_bracket"),
+                          config(ssl_verifypeer = 0))
   if (status_code(bracket_response) == 200) {
     message("Bracket API Successfully Called")
     bracket_content <- content(bracket_response, "text")

@@ -25,7 +25,8 @@
 #' @export
 create_user_df <- function(league_id = "1124848060283768832") {
   # API call to fetch user information
-  user_response <- httr::GET(paste0("https://api.sleeper.app/v1/league/", league_id, "/users"))
+  user_response <- httr::GET(paste0("https://api.sleeper.app/v1/league/", league_id, "/users"),
+                             config(ssl_verifypeer = 0))
 
   if (httr::status_code(user_response) == 200) {
     message("User API Successfully Called")
