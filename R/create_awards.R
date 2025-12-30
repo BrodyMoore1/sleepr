@@ -161,11 +161,17 @@ create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "202
       award_description = "Most Injury Prone Team (based from drafted players)"
     )
 
-  ir_players <- injury_setup %>% filter(roster_id == (ir_award_setup %>% pull(roster_id))) %>% pull(player_name)
+  ir_players <- injury_setup %>% filter(roster_id %in% (ir_award_setup %>% pull(roster_id))) %>%
+    group_by(roster_id) %>%
+    summarise(
+      player_names = paste(player_name, collapse = ", "),
+      .groups = "drop"
+    )
 
   ir_all_star_award <- ir_award_setup %>%
+    left_join(ir_players, by = "roster_id") %>%
     mutate(
-      award_details = paste0(str_to_title(display_name), " had ", num_injuries, " on IR or Out at the end of the season from his original draft class (", paste0(ir_players, collapse = ", "), ")")
+      award_details = paste0(str_to_title(display_name), " had ", num_injuries, " on IR or Out at the end of the season from his original draft class (", player_names, ")")
     ) %>%
     award_selector()
 
