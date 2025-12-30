@@ -8,6 +8,7 @@
 #'
 #' @param league_id A string representing the ID of the fantasy football league (default: "1124848060283768832").
 #' @param nfl_start_dt A string representing the start date of the NFL season (default: "2024-09-05").
+#' @param num_flex_spots The number of flex positions in the league.
 #' @return A dataframe (tibble) containing awards, with the following columns:
 #'   \describe{
 #'     \item{\code{award_name}}{The name of the award.}
@@ -24,10 +25,10 @@
 #' @importFrom dplyr select arrange mutate group_by summarise ungroup bind_rows filter slice
 #' @importFrom tidyr pivot_wider
 #' @export
-create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "2024-09-05") {
+create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "2024-09-05", num_flex_spots = 2) {
   # Load Data frames
   player_df <- get_player_df()
-  combined_df <- create_aggregated_points_df(league_id = league_id, nfl_start_dt = nfl_start_dt, player_df = player_df)
+  combined_df <- create_aggregated_points_df(league_id = league_id, nfl_start_dt = nfl_start_dt, player_df = player_df, num_flex_spots = num_flex_spots)
   long_points_df <- create_long_points_df(league_id = league_id, nfl_start_dt = nfl_start_dt, player_df = player_df)
 
 
@@ -119,7 +120,7 @@ create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "202
 
   #Largest Overall Week / Smallest Overall Week
   goose_juggarnaut_award <- combined_df %>%
-    filter(week <= 16) %>%
+    filter(week <= 17) %>%
     arrange(desc(starter_points)) %>%
     mutate(
       top_rank = row_number()
@@ -187,7 +188,7 @@ create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "202
   # add most points kept on the bench
 
   bench_awards_setup <- combined_df %>%
-    filter(week <= 16) %>%
+    filter(week <= 17) %>%
     mutate(
       unrealized_points = optimal_starter_points - starter_points
     ) %>%
@@ -223,7 +224,7 @@ create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "202
 
   # Highest Scoring Bench Player
   bench_mvp_award <- long_points_df %>%
-    filter(week <= 16) %>%
+    filter(week <= 17) %>%
     filter(is_starter == "bench_points") %>%
     arrange(desc(player_points)) %>%
     filter(player_points == max(player_points)) %>%
@@ -236,7 +237,7 @@ create_awards <- function(league_id = "1124848060283768832", nfl_start_dt = "202
 
   # Luckiest Team
   rabbits_foot_award <- combined_df %>%
-    filter(week <= 16) %>%
+    filter(week <= 17) %>%
     arrange(week, desc(starter_points)) %>%
     group_by(week) %>%
     mutate(rank = row_number()) %>%
