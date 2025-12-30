@@ -16,6 +16,8 @@
 #'   }
 #' @param player_df A dataframe containing player metadata (default: \code{NA}). If not provided,
 #'   the function calls \code{get_player_df()} to fetch the player data dynamically.
+#'
+#' @param flex_num The number of flex positions in the league.
 #' @return A list with two elements:
 #'   \describe{
 #'     \item{\code{optimizer_defined}}{A dataframe indicating whether each player is "optimal" or "sub_optimal".}
@@ -42,7 +44,7 @@
 #' @importFrom dplyr left_join arrange group_by mutate ungroup filter row_number bind_rows summarise desc
 #' @importFrom tidyr pivot_wider
 #' @export
-optimize_starter_points <- function(data, player_df = NA) {
+optimize_starter_points <- function(data, player_df = NA, flex_num = 2) {
   # Check if player_df is provided; if not, fetch it dynamically
   if (!is.data.frame(player_df)) {
     player_df <- get_player_df()
@@ -73,7 +75,7 @@ optimize_starter_points <- function(data, player_df = NA) {
     dplyr::group_by(roster_id) %>%
     dplyr::mutate(
       flex_rank = dplyr::row_number(),
-      position_choices = dplyr::if_else(flex_rank <= 2, "optimal", "sub_optimal")
+      position_choices = dplyr::if_else(flex_rank <= flex_num, "optimal", "sub_optimal")
     ) %>%
     dplyr::ungroup() %>%
     dplyr::select(-flex_rank)

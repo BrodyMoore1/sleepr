@@ -9,6 +9,7 @@
 #' @param league_id A string representing the ID of the fantasy football league (default: "1124848060283768832").
 #' @param nfl_start_dt A string representing the start date of the NFL season (default: "2024-09-05").
 #' @param player_df A dataframe containing player metadata. If not provided, the function dynamically retrieves player data using \code{get_player_df}.
+#' @param num_flex_spots The number of flex positions in the league.
 #' @return A dataframe (tibble) containing aggregated league points and matchup details, including:
 #'   \describe{
 #'     \item{\code{month}}{The month corresponding to the week.}
@@ -35,7 +36,7 @@
 #' }
 #' @importFrom dplyr left_join select arrange mutate
 #' @export
-create_aggregated_points_df <- function(league_id = "1124848060283768832", nfl_start_dt = "2024-09-05", player_df = NA) {
+create_aggregated_points_df <- function(league_id = "1124848060283768832", nfl_start_dt = "2024-09-05", player_df = NA, num_flex_spots = 2) {
   message("Creating the Aggregated DataFrame")
 
   # Check if player_df is provided; if not, fetch it dynamically
@@ -48,7 +49,7 @@ create_aggregated_points_df <- function(league_id = "1124848060283768832", nfl_s
   season_df <- season_list$season_df
 
   # Get weekly points
-  points_list <- get_weekly_points(league_id = league_id, nfl_start_dt = nfl_start_dt, player_df = player_df)
+  points_list <- get_weekly_points(league_id = league_id, nfl_start_dt = nfl_start_dt, player_df = player_df, num_flex_spots = num_flex_spots)
 
   # Get user and roster data
   user_df <- create_user_df(league_id = league_id)

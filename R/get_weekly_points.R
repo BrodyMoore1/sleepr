@@ -9,6 +9,7 @@
 #' @param league_id A string representing the ID of the fantasy football league (default: "1124848060283768832").
 #' @param nfl_start_dt A string representing the start date of the NFL season (default: "2024-09-05").
 #' @param player_df A dataframe containing player metadata. If not provided, the function dynamically retrieves player data using \code{get_player_df}.
+#' @param num_flex_spots The number of flex positions in the league.
 #' @return A list with two elements:
 #'   \describe{
 #'     \item{\code{full_points_df}}{A dataframe summarizing weekly points for each roster, including starter points, bench points, and win/loss outcomes.}
@@ -31,7 +32,7 @@
 #' @importFrom dplyr left_join mutate filter arrange group_by ungroup summarise rowwise bind_rows select coalesce desc
 #' @importFrom tidyr pivot_wider
 #' @export
-get_weekly_points <- function(league_id = "1124848060283768832", nfl_start_dt = "2024-09-05", player_df = NA) {
+get_weekly_points <- function(league_id = "1124848060283768832", nfl_start_dt = "2024-09-05", player_df = NA, num_flex_spots = 2) {
 
   # Check if player_df is provided; if not, fetch it dynamically
   if (!is.data.frame(player_df)) {
@@ -113,7 +114,7 @@ get_weekly_points <- function(league_id = "1124848060283768832", nfl_start_dt = 
         dplyr::arrange(roster_id, dplyr::desc(is_starter), dplyr::desc(player_points)) %>%
         dplyr::mutate(week = week_num)
 
-      optimal_list <- optimize_starter_points(team_df, player_df = player_df)
+      optimal_list <- optimize_starter_points(team_df, player_df = player_df, flex_num = num_flex_spots)
 
       team_optimized_df <- team_df %>%
         dplyr::left_join(optimal_list$optimizer_defined %>%
