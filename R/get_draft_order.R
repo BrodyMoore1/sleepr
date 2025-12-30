@@ -2,7 +2,7 @@
 #'
 #' This function retrieves and calculates the draft order for a specified Sleeper fantasy league. It integrates playoff and non-playoff team performances to generate the draft order based on team placements and total points scored.
 #'
-#' @param leauge_id A character string representing the ID of the Sleeper fantasy league. Defaults to "1069393183089586176".
+#' @param league_id A character string representing the ID of the Sleeper fantasy league. Defaults to "1069393183089586176".
 #' @return A data frame containing the draft order, team names, the reason for their placement (playoff or non-playoff team), and a description of the reason.
 #'
 #' @details
@@ -24,13 +24,13 @@
 #' @importFrom httr GET content status_code
 #' @importFrom jsonlite fromJSON
 #' @export
-get_draft_order <- function(leauge_id = "1069393183089586176") {
-  combined_df <- sleepr::create_aggregated_points_df(leauge_id)
+get_draft_order <- function(league_id = "1069393183089586176", num_flex_spots = 2) {
+  combined_df <- sleepr::create_aggregated_points_df(league_id, num_flex_spots = num_flex_spots)
 
   name_df <- combined_df %>%
     distinct(roster_id, display_name)
 
-  bracket_response <- GET(paste0("https://api.sleeper.app/v1/league/", leauge_id,"/winners_bracket"),
+  bracket_response <- GET(paste0("https://api.sleeper.app/v1/league/", league_id,"/winners_bracket"),
                           config(ssl_verifypeer = 0))
   if (status_code(bracket_response) == 200) {
     message("Bracket API Successfully Called")
